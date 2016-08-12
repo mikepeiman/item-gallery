@@ -25,7 +25,7 @@ const numberRecords = Employees.find({}).count();
 		});
 	}
 // This server-side publish is like a window into the collection or DB
-	Meteor.publish('employees', function() {
- 		return Employees.find({}, { limit: 20 });
+	Meteor.publish('employees', function(per_page) {
+ 		return Employees.find({}, { limit: per_page });
 	});
 });
