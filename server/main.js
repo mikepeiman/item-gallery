@@ -13,15 +13,19 @@ Meteor.startup(() => {
 const numberRecords = Employees.find({}).count();
 // .find() returns a data structure called a "cursor" (to be explained)
 
-if(!numberRecords) {
-	// generate some data
-	_.times(5000, () => { //runs the function x number of time, more elegant than for loop
-		const { name, email, phone } = helpers.createCard();
+	if(!numberRecords) {
+		// generate some data
+		_.times(5000, () => { //runs the function x number of time, more elegant than for loop
+			const { name, email, phone } = helpers.createCard();
 
-		Employees.insert({
-			name, email, phone,
-			avatar: image.avatar()
+			Employees.insert({
+				name, email, phone,
+				avatar: image.avatar()
+			});
 		});
-	});
 	}
+// This server-side publish is like a window into the collection or DB
+	Meteor.publish('employees', function() {
+ 		return Employees.find({}, { limit: 20 });
+	});
 });
